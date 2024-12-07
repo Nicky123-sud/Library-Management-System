@@ -1,0 +1,25 @@
+# Ignore Python bytecode
+*.pyc
+*.pyo
+__pycache__/
+
+# Ignore virtual environments
+.venv/
+venv/
+
+# Ignore PyCharm project files
+.idea/
+
+# Ignore database files
+db.sqlite3
+
+# Ignore media and static files
+media/
+staticfiles/
+
+# Ignore log files
+*.log
+
+# Ignore other untracked files
+*.bak
+*.swp

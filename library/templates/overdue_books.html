@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Overdue Books</h2>
+
+        {% if overdue_books %}
+            <div class="row">
+                {% for book in overdue_books %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text"><strong>Due on:</strong> {{ book.due_date|date:"F j, Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <strong>No overdue books at the moment.</strong> You're up to date!
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

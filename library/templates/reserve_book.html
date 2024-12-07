@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Reserve: {{ book.title }}</h2>
+
+        <div class="row">
+            <!-- Book Info Section -->
+            <div class="col-md-6">
+                <h4>Book Details</h4>
+                <p><strong>Author:</strong> {{ book.author }}</p>
+                <p><strong>ISBN:</strong> {{ book.isbn }}</p>
+            </div>
+
+            <!-- Reservation Form Section -->
+            <div class="col-md-6">
+                <h4>Reservation Form</h4>
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.as_p }}
+                    </div>
+
+                    <div class="d-flex justify-content-between">
+                        <!-- Reserve Button -->
+                        <button type="button" class="btn btn-primary" onclick="showConfirmModal('reserve', { bookTitle: '{{ book.title }}' })">
+                            Reserve {{ book.title }}
+                        </button>
+
+                        <!-- Cancel Reservation Button -->
+                        <button type="button" class="btn btn-warning" onclick="showConfirmModal('cancel', { bookTitle: '{{ book.title }}' })">
+                            Cancel Reservation
+                        </button>
+
+                        <!-- Delete Button -->
+                        <button type="button" class="btn btn-danger" onclick="showConfirmModal('delete', { bookTitle: '{{ book.title }}' })">
+                            Delete {{ book.title }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        {% if reservation_success %}
+            <div class="alert alert-success mt-4">
+                <strong>Success!</strong> Your reservation has been confirmed!
+            </div>
+        {% elif reservation_error %}
+            <div class="alert alert-danger mt-4">
+                <strong>Error!</strong> There was an issue with your reservation.
+            </div>
+        {% endif %}
+
+        <p class="mt-3">Once reserved, the book will no longer be available for others.</p>
+    </div>
+{% endblock %}

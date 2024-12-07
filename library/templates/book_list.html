@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Books | Library Catalog{% endblock %}
+
+{% block content %}
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Available Books</h2>
+
+        <!-- Date Filters Form -->
+        <form method="get" class="mb-4">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <input type="date" name="start_date" class="form-control" value="{{ request.GET.start_date }}" placeholder="Start Date">
+                </div>
+                <div class="col-md-3 mb-3">
+                    <input type="date" name="end_date" class="form-control" value="{{ request.GET.end_date }}" placeholder="End Date">
+                </div>
+                <div class="col-md-2 mb-3">
+                    <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+                </div>
+            </div>
+        </form>
+
+        {% if books %}
+            <div class="row">
+                {% for book in books %}
+                    <div class="col-md-4 mb-4">
+                        <div class="card h-100 shadow-sm">
+                            <img src="{{ book.img_url }}" class="card-img-top" alt="{{ book.title }}">
+                            <div class="card-body">
+                                <h5 class="card-title">{{ book.title }}</h5>
+                                <p class="card-text">{{ book.description | truncatewords:20 }}</p>
+                                <a href="{% url 'reserve_book' book.id %}" class="btn btn-primary {% if not book.available %}disabled{% endif %}">
+                                    {% if book.available %}Reserve Book{% else %}Unavailable{% endif %}
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="alert alert-warning text-center">
+                <strong>No books available at the moment.</strong> Check back later.
+            </div>
+        {% endif %}
+    </div>
+{% endblock %}

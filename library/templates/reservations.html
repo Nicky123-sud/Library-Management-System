@@ -1,0 +1,24 @@
+<!-- reservations.html -->
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Available Books</h2>
+
+<!-- Grid Layout for Books -->
+<div class="row">
+    {% for book in books %}
+    <div class="col-md-4">
+        <div class="card h-100">
+            <img class="card-img-top" src="{{ book.cover_image }}" alt="{{ book.title }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ book.title }}</h5>
+                <p class="card-text">By {{ book.author }}</p>
+                <p class="card-text"><strong>Status:</strong> {% if book.available %} Available {% else %} Unavailable {% endif %}</p>
+                <a href="/reserve/{{ book.id }}/" class="btn btn-primary {% if not book.available %}disabled{% endif %}">Reserve</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}
